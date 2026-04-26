@@ -389,8 +389,8 @@ layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1926381838]
 modulate = Color(1, 1, 1, 0.32941177)
-position = Vector2(119.5, 173.5)
-scale = Vector2(1.3177084, 1.3796296)
+position = Vector2(119.5, 184)
+scale = Vector2(1.3177084, 1.3148147)
 texture = ExtResource("6_c01mt")
 
 [node name="AbilitiesTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1542157185]

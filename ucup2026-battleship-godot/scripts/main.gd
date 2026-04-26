@@ -366,6 +366,7 @@ func _on_surrender() -> void:
 	_end_game(false)
 
 func _end_game(player_won: bool) -> void:
+	print("_end_game called, player_won=", player_won)
 	AudioManager.stop_music()
 	if bool(settings.get("sfx", true)):
 		AudioManager.play_sfx("win" if player_won else "lose")
@@ -381,18 +382,27 @@ func _history_key() -> String:
 	return "history"
 
 func _load_history() -> Array:
+	print("_load_history: loading history...")
 	var h = Storage.load_json(_history_key(), [])
-	return h if typeof(h) == TYPE_ARRAY else []
+	print("_load_history: raw loaded type=", typeof(h))
+	if typeof(h) != TYPE_ARRAY:
+		print("_load_history: not an array, returning empty")
+		return []
+	print("_load_history: loaded %d entries" % h.size())
+	return h
 
 func _save_history_entry(entry: Dictionary) -> void:
 	var h := _load_history()
 	h.insert(0, entry)
 	if h.size() > 50:
 		h = h.slice(0, 50)
+	print("_save_history_entry: saving %d entries" % h.size())
 	Storage.save_json(_history_key(), h)
 
 func _save_history(player_won: bool) -> void:
+	print("_save_history called")
 	if game == null:
+		print("_save_history: game is null, returning")
 		return
 	var total := game.hits + game.misses
 	var acc := 0
@@ -407,6 +417,7 @@ func _save_history(player_won: bool) -> void:
 	})
 
 func _refresh_history() -> void:
+	print("_refresh_history called")
 	var h := _load_history()
 	var rt: RichTextLabel = $Screens/History/HistoryVBox/HistoryText
 	if h.size() == 0:

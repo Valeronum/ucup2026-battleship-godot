@@ -10,6 +10,8 @@ const SHIP_TEXTURES = {
 	4: preload("res://assets/ships/ship_4.png"),
 }
 
+const WATER_TEXTURE = preload("res://assets/ships/Water_one.png")
+
 var settings := {
 	"difficulty": "medium",
 	"sfx": true,
@@ -176,6 +178,9 @@ func _build_grid(container: GridContainer, clickable: bool) -> Array:
 			b.custom_minimum_size = Vector2(34, 34)
 			b.text = ""
 			b.focus_mode = Control.FOCUS_NONE
+			b.icon = WATER_TEXTURE
+			b.expand_icon = true
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			var idx := Constants.rc(r, c)
 			buttons[idx] = b
 			container.add_child(b)
@@ -313,17 +318,15 @@ func _update_player_board_ui() -> void:
 			var cd: Dictionary = game.player_board.cell(r, c)
 			var b: Button = _player_buttons[Constants.rc(r, c)]
 			b.modulate = Color(1,1,1)
-			b.icon = null
+			b.icon = WATER_TEXTURE
+			b.expand_icon = true
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.text = ""
 			if cd.state == "ship":
 				var ship_id: int = int(cd.get("ship_id", -1))
 				var ship_size: int = _get_ship_size_by_id(ship_id)
 				if ship_size > 0 and SHIP_TEXTURES.has(ship_size):
 					b.icon = SHIP_TEXTURES[ship_size]
-					b.expand_icon = true
-					b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-				else:
-					b.text = "■"
 			if cd.state == "miss":
 				b.text = "•"
 				b.modulate = Color(0.6,0.8,1)
@@ -341,6 +344,9 @@ func _update_enemy_board_ui() -> void:
 			var cd: Dictionary = game.enemy_board.cell(r, c)
 			var b: Button = _enemy_buttons[Constants.rc(r, c)]
 			b.modulate = Color(1,1,1)
+			b.icon = WATER_TEXTURE
+			b.expand_icon = true
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.text = ""
 			if cd.state == "miss":
 				b.text = "•"
@@ -604,17 +610,15 @@ func _update_placement_board_ui() -> void:
 			var cd: Dictionary = _placement_board.cell(r, c)
 			var b: Button = _placement_buttons[Constants.rc(r, c)]
 			b.modulate = Color(1, 1, 1)
-			b.icon = null
+			b.icon = WATER_TEXTURE
+			b.expand_icon = true
+			b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			b.text = ""
 			if cd.state == "ship":
 				var ship_id: int = int(cd.get("ship_id", -1))
 				var ship_size: int = _get_ship_size_by_id(ship_id)
 				if ship_size > 0 and SHIP_TEXTURES.has(ship_size):
 					b.icon = SHIP_TEXTURES[ship_size]
-					b.expand_icon = true
-					b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-				else:
-					b.text = "■"
 	# hover preview
 	if _placement_selected_def_index >= 0 and _placement_hover_r >= 0 and _placement_hover_c >= 0:
 		var def = Constants.SHIPS_DEF[_placement_selected_def_index]

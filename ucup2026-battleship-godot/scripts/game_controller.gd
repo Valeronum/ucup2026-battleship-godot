@@ -30,6 +30,16 @@ func start_new() -> void:
 	ok = false
 	while not ok:
 		ok = enemy_board.auto_place_all()
+	_reset_state()
+
+func start_new_with_board(p_player_board: BoardClass) -> void:
+	player_board = p_player_board
+	var ok := false
+	while not ok:
+		ok = enemy_board.auto_place_all()
+	_reset_state()
+
+func _reset_state() -> void:
 	ai.reset()
 	turn = "player"
 	over = false

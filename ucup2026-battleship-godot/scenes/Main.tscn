@@ -178,6 +178,82 @@ text = "Очистити"
 layout_mode = 2
 text = "Назад"
 
+[node name="Placement" type="PanelContainer" parent="Screens"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PlacementVBox" type="VBoxContainer" parent="Screens/Placement"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+
+[node name="PlacementTitle" type="Label" parent="Screens/Placement/PlacementVBox"]
+layout_mode = 2
+text = "Розташування кораблів"
+horizontal_alignment = 1
+
+[node name="PlacementBody" type="HBoxContainer" parent="Screens/Placement/PlacementVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Left" type="VBoxContainer" parent="Screens/Placement/PlacementVBox/PlacementBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BoardLabel" type="Label" parent="Screens/Placement/PlacementVBox/PlacementBody/Left"]
+layout_mode = 2
+text = "Твоє поле"
+horizontal_alignment = 1
+
+[node name="PlacementBoard" type="GridContainer" parent="Screens/Placement/PlacementVBox/PlacementBody/Left"]
+layout_mode = 2
+columns = 11
+
+[node name="Right" type="VBoxContainer" parent="Screens/Placement/PlacementVBox/PlacementBody"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(240, 0)
+
+[node name="ShipsTitle" type="Label" parent="Screens/Placement/PlacementVBox/PlacementBody/Right"]
+layout_mode = 2
+text = "Кораблі"
+horizontal_alignment = 1
+
+[node name="ShipsContainer" type="VBoxContainer" parent="Screens/Placement/PlacementVBox/PlacementBody/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlacementControls" type="VBoxContainer" parent="Screens/Placement/PlacementVBox/PlacementBody/Right"]
+layout_mode = 2
+
+[node name="BtnRotate" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls"]
+layout_mode = 2
+text = "Обернути (R)"
+
+[node name="BtnAuto" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls"]
+layout_mode = 2
+text = "Авто"
+
+[node name="BtnClear" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls"]
+layout_mode = 2
+text = "Очистити"
+
+[node name="BtnStart" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls"]
+layout_mode = 2
+text = "Почати бій"
+
+[node name="BtnPlacementBack" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls"]
+layout_mode = 2
+text = "Назад"
+
 [node name="Game" type="PanelContainer" parent="Screens"]
 visible = false
 layout_mode = 1

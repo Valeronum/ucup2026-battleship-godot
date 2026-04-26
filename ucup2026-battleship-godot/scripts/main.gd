@@ -16,6 +16,16 @@ var selected_ability: String = "" # "radar" | "airstrike" | ""
 var _player_buttons: Array = []
 var _enemy_buttons: Array = []
 
+var _placement_board: Board = null
+var _placement_buttons: Array = []
+var _placement_ship_buttons: Array = []
+var _placement_selected_def_index: int = -1
+var _placement_vertical: bool = false
+var _placement_hover_r: int = -1
+var _placement_hover_c: int = -1
+var _placement_ships_left: Dictionary = {}
+var _placement_next_id: int = 0
+
 @onready var screens: Control = $Screens
 @onready var screen_menu: Control = $Screens/Menu
 @onready var screen_settings: Control = $Screens/Settings
@@ -23,6 +33,9 @@ var _enemy_buttons: Array = []
 @onready var screen_history: Control = $Screens/History
 @onready var screen_game: Control = $Screens/Game
 @onready var screen_result: Control = $Screens/Result
+@onready var screen_placement: Control = $Screens/Placement
+@onready var grid_placement: GridContainer = $Screens/Placement/PlacementVBox/PlacementBody/Left/PlacementBoard
+@onready var ships_container: VBoxContainer = $Screens/Placement/PlacementVBox/PlacementBody/Right/ShipsContainer
 
 @onready var opt_difficulty: OptionButton = $Screens/Settings/SettingsVBox/DifficultyRow/Difficulty
 @onready var chk_sfx: CheckBox = $Screens/Settings/SettingsVBox/Sfx
@@ -46,6 +59,7 @@ func _ready() -> void:
 	_apply_music_state()
 	_wire_events()
 	_build_boards_ui()
+	_build_placement_ui()
 	_show_screen(screen_menu)
 
 func _setup_settings_ui() -> void:
@@ -101,6 +115,12 @@ func _wire_events() -> void:
 	$Screens/Result/ResultVBox/BtnReplay.pressed.connect(_on_play)
 	$Screens/Result/ResultVBox/BtnResultMenu.pressed.connect(func(): _click(); _show_screen(screen_menu); _apply_music_state())
 
+	$Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls/BtnRotate.pressed.connect(_on_placement_rotate)
+	$Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls/BtnAuto.pressed.connect(_on_placement_auto)
+	$Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls/BtnClear.pressed.connect(_on_placement_clear)
+	$Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls/BtnStart.pressed.connect(_on_placement_start)
+	$Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls/BtnPlacementBack.pressed.connect(func(): _click(); _show_screen(screen_menu))
+
 func _click() -> void:
 	if bool(settings.get("sfx", true)):
 		AudioManager.play_sfx("click")
@@ -114,10 +134,8 @@ func _on_difficulty_selected(index: int) -> void:
 func _on_play() -> void:
 	_click()
 	selected_ability = ""
-	game = GameControllerClass.new(String(settings.get("difficulty", "medium")))
-	game.start_new()
-	_update_all_ui()
-	_show_screen(screen_game)
+	_start_placement()
+	_show_screen(screen_placement)
 	_apply_music_state()
 
 func _show_screen(s: Control) -> void:
@@ -408,3 +426,156 @@ func _on_clear_history() -> void:
 	_click()
 	Storage.clear(_history_key())
 	_refresh_history()
+
+# ---------- Placement ----------
+
+func _build_placement_ui() -> void:
+	_placement_buttons = _build_grid(grid_placement, false)
+	for r in range(Constants.BOARD_SIZE):
+		for c in range(Constants.BOARD_SIZE):
+			var b: Button = _placement_buttons[Constants.rc(r, c)]
+			b.pressed.connect(func(rr=r, cc=c): _on_placement_cell_pressed(rr, cc))
+			b.mouse_entered.connect(func(rr=r, cc=c): _placement_hover_r = rr; _placement_hover_c = cc; _update_placement_board_ui())
+			b.mouse_exited.connect(func(): _placement_hover_r = -1; _placement_hover_c = -1; _update_placement_board_ui())
+	for ch in ships_container.get_children():
+		ch.queue_free()
+	_placement_ship_buttons = []
+	for i in range(Constants.SHIPS_DEF.size()):
+		var def = Constants.SHIPS_DEF[i]
+		var btn := Button.new()
+		btn.text = "%s (%d) ×%d" % [String(def.name), int(def.size), int(def.count)]
+		btn.pressed.connect(func(ii=i): _on_placement_ship_selected(ii))
+		ships_container.add_child(btn)
+		_placement_ship_buttons.append(btn)
+
+func _start_placement() -> void:
+	_placement_board = preload("res://scripts/board.gd").new()
+	_placement_board._reset()
+	_placement_selected_def_index = -1
+	_placement_vertical = false
+	_placement_hover_r = -1
+	_placement_hover_c = -1
+	_placement_next_id = 0
+	_placement_ships_left = {}
+	for i in range(Constants.SHIPS_DEF.size()):
+		_placement_ships_left[i] = int(Constants.SHIPS_DEF[i].count)
+	for btn in _placement_ship_buttons:
+		btn.disabled = false
+		btn.modulate = Color(1, 1, 1)
+	_update_placement_board_ui()
+
+func _on_placement_ship_selected(idx: int) -> void:
+	_click()
+	if _placement_ships_left.get(idx, 0) <= 0:
+		return
+	_placement_selected_def_index = idx
+	for i in range(_placement_ship_buttons.size()):
+		_placement_ship_buttons[i].modulate = Color(1.3, 1.3, 0.7) if i == idx else Color(1, 1, 1)
+
+func _on_placement_rotate() -> void:
+	_click()
+	_placement_vertical = not _placement_vertical
+
+func _on_placement_cell_pressed(r: int, c: int) -> void:
+	_click()
+	if _placement_selected_def_index < 0:
+		return
+	if _placement_ships_left.get(_placement_selected_def_index, 0) <= 0:
+		return
+	_try_place_ship(r, c)
+
+func _try_place_ship(r: int, c: int) -> void:
+	var def = Constants.SHIPS_DEF[_placement_selected_def_index]
+	var size: int = int(def.size)
+	if not _placement_board.can_place(r, c, size, _placement_vertical):
+		return
+	var ship := preload("res://scripts/ship.gd").new(size, _placement_next_id)
+	_placement_next_id += 1
+	_placement_board.place_ship(ship, r, c, _placement_vertical)
+	_placement_ships_left[_placement_selected_def_index] = int(_placement_ships_left[_placement_selected_def_index]) - 1
+	if _placement_ships_left[_placement_selected_def_index] <= 0:
+		_placement_ship_buttons[_placement_selected_def_index].disabled = true
+		_placement_selected_def_index = -1
+		for btn in _placement_ship_buttons:
+			btn.modulate = Color(1, 1, 1)
+	_update_placement_board_ui()
+
+func _on_placement_auto() -> void:
+	_click()
+	_placement_board._reset()
+	_placement_next_id = 0
+	for i in range(Constants.SHIPS_DEF.size()):
+		_placement_ships_left[i] = int(Constants.SHIPS_DEF[i].count)
+	var ok := _placement_board.auto_place_all()
+	if ok:
+		_placement_next_id = _placement_board.ships.size()
+		for i in range(Constants.SHIPS_DEF.size()):
+			_placement_ships_left[i] = 0
+		for btn in _placement_ship_buttons:
+			btn.disabled = true
+			btn.modulate = Color(1, 1, 1)
+		_placement_selected_def_index = -1
+	_update_placement_board_ui()
+
+func _on_placement_clear() -> void:
+	_click()
+	_placement_board._reset()
+	_placement_next_id = 0
+	for i in range(Constants.SHIPS_DEF.size()):
+		_placement_ships_left[i] = int(Constants.SHIPS_DEF[i].count)
+	for btn in _placement_ship_buttons:
+		btn.disabled = false
+		btn.modulate = Color(1, 1, 1)
+	_placement_selected_def_index = -1
+	_update_placement_board_ui()
+
+func _is_placement_complete() -> bool:
+	for v in _placement_ships_left.values():
+		if int(v) > 0:
+			return false
+	return true
+
+func _on_placement_start() -> void:
+	_click()
+	if not _is_placement_complete():
+		return
+	_start_game_with_placement()
+
+func _start_game_with_placement() -> void:
+	selected_ability = ""
+	game = GameControllerClass.new(String(settings.get("difficulty", "medium")))
+	game.start_new_with_board(_placement_board)
+	_placement_board = null
+	_update_all_ui()
+	_show_screen(screen_game)
+	_apply_music_state()
+
+func _update_placement_board_ui() -> void:
+	if _placement_board == null:
+		return
+	for r in range(Constants.BOARD_SIZE):
+		for c in range(Constants.BOARD_SIZE):
+			var cd: Dictionary = _placement_board.cell(r, c)
+			var b: Button = _placement_buttons[Constants.rc(r, c)]
+			b.modulate = Color(1, 1, 1)
+			b.text = ""
+			if cd.state == "ship":
+				b.text = "■"
+	# hover preview
+	if _placement_selected_def_index >= 0 and _placement_hover_r >= 0 and _placement_hover_c >= 0:
+		var def = Constants.SHIPS_DEF[_placement_selected_def_index]
+		var size: int = int(def.size)
+		var can := _placement_board.can_place(_placement_hover_r, _placement_hover_c, size, _placement_vertical)
+		for i in range(size):
+			var rr := _placement_hover_r + (i if _placement_vertical else 0)
+			var cc := _placement_hover_c + (0 if _placement_vertical else i)
+			if Constants.in_bounds(rr, cc):
+				var b: Button = _placement_buttons[Constants.rc(rr, cc)]
+				b.text = "□"
+				b.modulate = Color(0.4, 1.0, 0.4) if can else Color(1.0, 0.4, 0.4)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_R:
+		if screen_placement.visible and _placement_board != null:
+			_placement_vertical = not _placement_vertical
+			_update_placement_board_ui()

@@ -42,6 +42,7 @@ func place_ship(ship: ShipClass, r: int, c: int, vertical: bool) -> void:
 	ship.place(r, c, vertical)
 	for p in ship.cells:
 		grid[Constants.rc(int(p.r), int(p.c))] = {"ship_id": ship.id, "state": "ship", "revealed": false, "sunk": false}
+	ships.append(ship)
 
 func auto_place_all() -> bool:
 	_reset()
@@ -59,7 +60,6 @@ func auto_place_all() -> bool:
 				var v := randf() < 0.5
 				if can_place(r, c, int(def.size), v):
 					place_ship(ship, r, c, v)
-					ships.append(ship)
 					placed = true
 			if not placed:
 				return false

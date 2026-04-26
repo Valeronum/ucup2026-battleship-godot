@@ -3,6 +3,13 @@ extends Control
 const Constants = preload("res://scripts/constants.gd")
 const GameControllerClass = preload("res://scripts/game_controller.gd")
 
+const SHIP_TEXTURES = {
+	1: preload("res://assets/ships/ship_1.png"),
+	2: preload("res://assets/ships/ship_2.png"),
+	3: preload("res://assets/ships/ship_3.png"),
+	4: preload("res://assets/ships/ship_4.png"),
+}
+
 var settings := {
 	"difficulty": "medium",
 	"sfx": true,
@@ -284,6 +291,20 @@ func _update_abilities_ui() -> void:
 	btn_radar.disabled = game.turn != "player" or int(game.abilities.radar) <= 0
 	btn_airstrike.disabled = game.turn != "player" or int(game.abilities.airstrike) <= 0
 
+func _get_ship_size_by_id(ship_id: int) -> int:
+	if _placement_board != null:
+		for ship in _placement_board.ships:
+			if ship.id == ship_id:
+				return ship.size
+	if game != null:
+		for ship in game.player_board.ships:
+			if ship.id == ship_id:
+				return ship.size
+		for ship in game.enemy_board.ships:
+			if ship.id == ship_id:
+				return ship.size
+	return 0
+
 func _update_player_board_ui() -> void:
 	if game == null:
 		return
@@ -292,9 +313,17 @@ func _update_player_board_ui() -> void:
 			var cd: Dictionary = game.player_board.cell(r, c)
 			var b: Button = _player_buttons[Constants.rc(r, c)]
 			b.modulate = Color(1,1,1)
+			b.icon = null
 			b.text = ""
 			if cd.state == "ship":
-				b.text = "■"
+				var ship_id: int = int(cd.get("ship_id", -1))
+				var ship_size: int = _get_ship_size_by_id(ship_id)
+				if ship_size > 0 and SHIP_TEXTURES.has(ship_size):
+					b.icon = SHIP_TEXTURES[ship_size]
+					b.expand_icon = true
+					b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				else:
+					b.text = "■"
 			if cd.state == "miss":
 				b.text = "•"
 				b.modulate = Color(0.6,0.8,1)
@@ -453,8 +482,14 @@ func _build_placement_ui() -> void:
 	_placement_ship_buttons = []
 	for i in range(Constants.SHIPS_DEF.size()):
 		var def = Constants.SHIPS_DEF[i]
+		var size: int = int(def.size)
 		var btn := Button.new()
-		btn.text = "%s (%d) ×%d" % [String(def.name), int(def.size), int(def.count)]
+		btn.custom_minimum_size = Vector2(200, 40)
+		btn.text = "%s ×%d" % [String(def.name), int(def.count)]
+		if SHIP_TEXTURES.has(size):
+			btn.icon = SHIP_TEXTURES[size]
+			btn.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			btn.expand_icon = true
 		btn.pressed.connect(func(ii=i): _on_placement_ship_selected(ii))
 		ships_container.add_child(btn)
 		_placement_ship_buttons.append(btn)
@@ -569,9 +604,17 @@ func _update_placement_board_ui() -> void:
 			var cd: Dictionary = _placement_board.cell(r, c)
 			var b: Button = _placement_buttons[Constants.rc(r, c)]
 			b.modulate = Color(1, 1, 1)
+			b.icon = null
 			b.text = ""
 			if cd.state == "ship":
-				b.text = "■"
+				var ship_id: int = int(cd.get("ship_id", -1))
+				var ship_size: int = _get_ship_size_by_id(ship_id)
+				if ship_size > 0 and SHIP_TEXTURES.has(ship_size):
+					b.icon = SHIP_TEXTURES[ship_size]
+					b.expand_icon = true
+					b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				else:
+					b.text = "■"
 	# hover preview
 	if _placement_selected_def_index >= 0 and _placement_hover_r >= 0 and _placement_hover_c >= 0:
 		var def = Constants.SHIPS_DEF[_placement_selected_def_index]
@@ -582,8 +625,14 @@ func _update_placement_board_ui() -> void:
 			var cc := _placement_hover_c + (0 if _placement_vertical else i)
 			if Constants.in_bounds(rr, cc):
 				var b: Button = _placement_buttons[Constants.rc(rr, cc)]
-				b.text = "□"
-				b.modulate = Color(0.4, 1.0, 0.4) if can else Color(1.0, 0.4, 0.4)
+				b.text = ""
+				if SHIP_TEXTURES.has(size):
+					b.icon = SHIP_TEXTURES[size]
+					b.expand_icon = true
+					b.modulate = Color(0.4, 1.0, 0.4, 0.7) if can else Color(1.0, 0.4, 0.4, 0.7)
+				else:
+					b.text = "□"
+					b.modulate = Color(0.4, 1.0, 0.4) if can else Color(1.0, 0.4, 0.4)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_R:

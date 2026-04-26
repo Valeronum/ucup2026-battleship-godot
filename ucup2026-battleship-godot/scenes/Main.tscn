@@ -86,6 +86,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Settings" unique_id=1931093353]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("2_0bbpv")
+
 [node name="SettingsVBox" type="VBoxContainer" parent="Screens/Settings" unique_id=592487484]
 layout_mode = 2
 
@@ -124,6 +129,9 @@ text = "Autosave"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_rvslj")
 text = "Back"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="Help" type="PanelContainer" parent="Screens" unique_id=53069316]
 visible = false
@@ -201,6 +209,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Placement" unique_id=517659936]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("2_0bbpv")
 
 [node name="PlacementVBox" type="VBoxContainer" parent="Screens/Placement" unique_id=1931757816]
 layout_mode = 2

@@ -411,6 +411,9 @@ icon_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_rvslj")
 text = "Big rock 3×3 (1)"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="StatsTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=853582740]
 layout_mode = 2

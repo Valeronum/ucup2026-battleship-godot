@@ -4,18 +4,18 @@ class_name Board
 const Constants = preload("res://scripts/constants.gd")
 const ShipClass = preload("res://scripts/ship.gd")
 
-var grid: Array[Dictionary] = []
-var ships: Array[ShipClass] = []
+var grid: Array = []
+var ships: Array = []
 
 func _init() -> void:
 	_reset()
 
 func _reset() -> void:
-	grid = []
+	grid.clear()
 	grid.resize(Constants.BOARD_SIZE * Constants.BOARD_SIZE)
 	for i in range(grid.size()):
 		grid[i] = {"ship_id": null, "state": "empty", "revealed": false, "sunk": false}
-	ships = []
+	ships.clear()
 
 func cell(r: int, c: int) -> Dictionary:
 	if not Constants.in_bounds(r, c):
@@ -129,7 +129,7 @@ func to_snapshot() -> Dictionary:
 
 func from_snapshot(data: Dictionary) -> void:
 	grid = data.get("grid", [])
-	ships = []
+	ships.clear()
 	for s in data.get("ships", []):
 		var ship := ShipClass.new(int(s.size), int(s.id))
 		ship.hits = int(s.hits)

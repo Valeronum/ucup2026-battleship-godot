@@ -5,14 +5,14 @@ const Constants = preload("res://scripts/constants.gd")
 
 var diff: String
 var shots: Dictionary = {} # key->true
-var hits: Array[Dictionary] = [] # {r,c}
+var hits: Array = [] # {r,c}
 
 func _init(p_diff: String) -> void:
 	diff = p_diff
 
 func reset() -> void:
-	shots = {}
-	hits = []
+	shots.clear()
+	hits.clear()
 
 func choose_shot(board) -> Dictionary:
 	if diff == "easy":
@@ -71,7 +71,7 @@ func _hunt_shot(board) -> Variant:
 
 func _strategic_shot(board) -> Dictionary:
 	var step := 2
-	var candidates: Array[Dictionary] = []
+	var candidates: Array = []
 	for r in range(Constants.BOARD_SIZE):
 		for c in range(Constants.BOARD_SIZE):
 			var key := Constants.rc(r, c)
@@ -92,7 +92,7 @@ func _strategic_shot(board) -> Dictionary:
 				candidates.append({"r": r, "c": c})
 	if candidates.size() == 0:
 		return _random_shot()
-	var pick := candidates[Constants.rand_i(candidates.size())]
+	var pick: Dictionary = candidates[Constants.rand_i(candidates.size())]
 	shots[Constants.rc(int(pick.r), int(pick.c))] = true
 	return pick
 
@@ -116,7 +116,7 @@ func report_result(r: int, c: int, result: String, ship: Variant) -> void:
 	if result == "hit":
 		hits.append({"r": r, "c": c})
 	if ship != null and ship.sunk:
-		var new_hits: Array[Dictionary] = []
+		var new_hits: Array = []
 		for p in hits:
 			var belongs := false
 			for sc in ship.cells:

@@ -5,7 +5,7 @@ var size: int
 var id: int
 var hits: int = 0
 var sunk: bool = false
-var cells: Array[Dictionary] = [] # {r,c}
+var cells: Array = [] # {r,c}
 
 func _init(p_size: int, p_id: int) -> void:
 	size = p_size

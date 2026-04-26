@@ -144,27 +144,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Help" unique_id=1850471406]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("5_vcsgt")
+
 [node name="HelpVBox" type="VBoxContainer" parent="Screens/Help" unique_id=112598700]
 layout_mode = 2
 
 [node name="HelpTitle" type="Label" parent="Screens/Help/HelpVBox" unique_id=543182677]
 layout_mode = 2
-text = "Довідка"
+text = "Reference"
 horizontal_alignment = 1
 
 [node name="HelpText" type="RichTextLabel" parent="Screens/Help/HelpVBox" unique_id=1463826075]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.52951455, 0.06719887, 0.36371526, 1)
+theme_override_fonts/normal_font = ExtResource("2_rvslj")
 bbcode_enabled = true
-text = "[b]Мета:[/b] першим знищити всі кораблі супротивника (20 палуб).
+text = "[b]Objective:[/b] Be the first to destroy all enemy insects (20 decks).
 
-[b]Флот:[/b] 1×4, 2×3, 3×2, 4×1. Кораблі не торкаються навіть по діагоналі.
+[b]Fleet:[/b] 1×4, 2×3, 3×2, 4×1. Insects do not touch even diagonally.
 
-[b]Ходи:[/b] влучання дає додатковий хід, промах передає хід AI.
+[b]Moves:[/b] Hitting gives an extra turn, missing passes the turn to the AI.
 
-[b]Радар 3×3:[/b] 1 раз за гру, підсвічує клітинки з кораблем, хід не завершує.
+[b]Radar 3×3:[/b] 1 time per game, highlights the cells with the insect, the turn does not end.
 
-[b]Авіаудар 3×3:[/b] 1 раз за гру, стріляє по всіх клітинках зони, після використання хід переходить до AI."
+[b]Big Rock 3×3:[/b] 1 time per game, shoots at all cells in the zone, after use the turn passes to the AI.
+"
 
 [node name="BtnHelpBack" type="Button" parent="Screens/Help/HelpVBox" unique_id=1682371404]
 layout_mode = 2
@@ -182,13 +190,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/History" unique_id=1994604791]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("5_vcsgt")
+
 [node name="HistoryVBox" type="VBoxContainer" parent="Screens/History" unique_id=213651849]
 layout_mode = 2
 
 [node name="HistoryTitle" type="Label" parent="Screens/History/HistoryVBox" unique_id=2076269709]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.5294118, 0.06666667, 0.3647059, 1)
 theme_override_fonts/font = ExtResource("2_rvslj")
-text = "Історія матчів"
+text = "History"
 horizontal_alignment = 1
 
 [node name="HistoryText" type="RichTextLabel" parent="Screens/History/HistoryVBox" unique_id=2124528149]

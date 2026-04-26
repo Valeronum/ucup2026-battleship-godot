@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://mtl4e315amhj" path="res://assets/bg/Fantasy_Landscape.png" id="2_0bbpv"]
 [ext_resource type="FontFile" uid="uid://b83uhwm1mh12t" path="res://assets/fonts/alagard.ttf" id="2_rvslj"]
 [ext_resource type="Texture2D" uid="uid://348vpvrgwr2k" path="res://assets/buttons/button_icon.png" id="4_rarhs"]
+[ext_resource type="Texture2D" uid="uid://dolxtd6srmto6" path="res://assets/bg/Fantasy_Landscape_blurred.png" id="5_vcsgt"]
 
 [node name="Main" type="Control" unique_id=429664905]
 layout_mode = 3
@@ -48,6 +49,7 @@ horizontal_alignment = 1
 [node name="BtnPlay" type="Button" parent="Screens/Menu/MenuVBox" unique_id=1293712320]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_rvslj")
+theme_override_font_sizes/font_size = 16
 text = "Quick Game"
 icon = ExtResource("4_rarhs")
 flat = true
@@ -89,7 +91,7 @@ grow_vertical = 2
 [node name="Sprite2D" type="Sprite2D" parent="Screens/Settings" unique_id=1931093353]
 position = Vector2(642.5, 362)
 scale = Vector2(6.6927085, 6.685185)
-texture = ExtResource("2_0bbpv")
+texture = ExtResource("5_vcsgt")
 
 [node name="SettingsVBox" type="VBoxContainer" parent="Screens/Settings" unique_id=592487484]
 layout_mode = 2
@@ -166,7 +168,10 @@ text = "[b]Мета:[/b] першим знищити всі кораблі су�
 
 [node name="BtnHelpBack" type="Button" parent="Screens/Help/HelpVBox" unique_id=1682371404]
 layout_mode = 2
-text = "Назад"
+text = "Back"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="History" type="PanelContainer" parent="Screens" unique_id=978537476]
 visible = false
@@ -182,6 +187,7 @@ layout_mode = 2
 
 [node name="HistoryTitle" type="Label" parent="Screens/History/HistoryVBox" unique_id=2076269709]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rvslj")
 text = "Історія матчів"
 horizontal_alignment = 1
 
@@ -195,11 +201,19 @@ layout_mode = 2
 
 [node name="BtnClearHistory" type="Button" parent="Screens/History/HistoryVBox/HistoryButtons" unique_id=174523016]
 layout_mode = 2
-text = "Очистити"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Clear"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnHistoryBack" type="Button" parent="Screens/History/HistoryVBox/HistoryButtons" unique_id=1901783473]
 layout_mode = 2
-text = "Назад"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Back"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="Placement" type="PanelContainer" parent="Screens" unique_id=783815915]
 visible = false
@@ -213,14 +227,15 @@ grow_vertical = 2
 [node name="Sprite2D" type="Sprite2D" parent="Screens/Placement" unique_id=517659936]
 position = Vector2(642.5, 362)
 scale = Vector2(6.6927085, 6.685185)
-texture = ExtResource("2_0bbpv")
+texture = ExtResource("5_vcsgt")
 
 [node name="PlacementVBox" type="VBoxContainer" parent="Screens/Placement" unique_id=1931757816]
 layout_mode = 2
 
 [node name="PlacementTitle" type="Label" parent="Screens/Placement/PlacementVBox" unique_id=1229773190]
 layout_mode = 2
-text = "Розташування кораблів"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Insects placing"
 horizontal_alignment = 1
 
 [node name="PlacementBody" type="HBoxContainer" parent="Screens/Placement/PlacementVBox" unique_id=1498245470]
@@ -233,7 +248,8 @@ size_flags_horizontal = 3
 
 [node name="BoardLabel" type="Label" parent="Screens/Placement/PlacementVBox/PlacementBody/Left" unique_id=876694617]
 layout_mode = 2
-text = "Твоє поле"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Your field"
 horizontal_alignment = 1
 
 [node name="PlacementBoard" type="GridContainer" parent="Screens/Placement/PlacementVBox/PlacementBody/Left" unique_id=1337571761]
@@ -247,7 +263,8 @@ size_flags_horizontal = 3
 
 [node name="ShipsTitle" type="Label" parent="Screens/Placement/PlacementVBox/PlacementBody/Right" unique_id=1182519267]
 layout_mode = 2
-text = "Кораблі"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Insects"
 horizontal_alignment = 1
 
 [node name="ShipsContainer" type="VBoxContainer" parent="Screens/Placement/PlacementVBox/PlacementBody/Right" unique_id=722695687]
@@ -259,23 +276,43 @@ layout_mode = 2
 
 [node name="BtnRotate" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls" unique_id=775562721]
 layout_mode = 2
-text = "Обернути (R)"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Rotate (R)"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnAuto" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls" unique_id=965846307]
 layout_mode = 2
-text = "Авто"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Auto"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnClear" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls" unique_id=305185869]
 layout_mode = 2
-text = "Очистити"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Clear"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnStart" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls" unique_id=227321376]
 layout_mode = 2
-text = "Почати бій"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Start"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnPlacementBack" type="Button" parent="Screens/Placement/PlacementVBox/PlacementBody/Right/PlacementControls" unique_id=1667229277]
 layout_mode = 2
-text = "Назад"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Back"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="Game" type="PanelContainer" parent="Screens" unique_id=991645584]
 visible = false
@@ -286,12 +323,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Game" unique_id=640549492]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("2_0bbpv")
+
 [node name="GameRoot" type="VBoxContainer" parent="Screens/Game" unique_id=63331634]
 layout_mode = 2
 
 [node name="TurnIndicator" type="Label" parent="Screens/Game/GameRoot" unique_id=1488110835]
 layout_mode = 2
-text = "Хід гравця"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Player's move"
 horizontal_alignment = 1
 
 [node name="GameBody" type="HBoxContainer" parent="Screens/Game/GameRoot" unique_id=647859922]
@@ -304,7 +347,8 @@ size_flags_horizontal = 3
 
 [node name="PlayerTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Left" unique_id=1981292102]
 layout_mode = 2
-text = "Твоє поле"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Your field"
 horizontal_alignment = 1
 
 [node name="PlayerBoard" type="GridContainer" parent="Screens/Game/GameRoot/GameBody/Left" unique_id=1493891769]
@@ -317,7 +361,8 @@ size_flags_horizontal = 3
 
 [node name="EnemyTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Right" unique_id=2113396311]
 layout_mode = 2
-text = "Поле противника"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Rivals field"
 horizontal_alignment = 1
 
 [node name="EnemyBoard" type="GridContainer" parent="Screens/Game/GameRoot/GameBody/Right" unique_id=1722548881]
@@ -330,47 +375,71 @@ layout_mode = 2
 
 [node name="AbilitiesTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1542157185]
 layout_mode = 2
-text = "Здібності"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Special abilities"
 horizontal_alignment = 1
 
 [node name="BtnRadar" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1567556708]
 layout_mode = 2
-text = "Радар 3×3 (1)"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Radar 3×3 (1)"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnAirstrike" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=298705622]
 layout_mode = 2
-text = "Авіаудар 3×3 (1)"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Big rock 3×3 (1)"
 
 [node name="StatsTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=853582740]
 layout_mode = 2
-text = "Статистика"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Statistics"
 horizontal_alignment = 1
 
 [node name="Stats" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=998091648]
 layout_mode = 2
-text = "Ходи: 0
-Влучання: 0
-Промахи: 0
-Точність: 0%"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Moves: 0
+Hits: 0
+Misses: 0
+Accuracy: 0%"
 
 [node name="GameButtons" type="VBoxContainer" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1063857881]
 layout_mode = 2
 
 [node name="BtnSave" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar/GameButtons" unique_id=1426112085]
 layout_mode = 2
-text = "Зберегти"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Save"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnLoad" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar/GameButtons" unique_id=953988574]
 layout_mode = 2
-text = "Завантажити"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Load"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnSurrender" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar/GameButtons" unique_id=2006489614]
 layout_mode = 2
-text = "Здатися"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Give up"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnGameMenu" type="Button" parent="Screens/Game/GameRoot/GameBody/Sidebar/GameButtons" unique_id=1184308457]
 layout_mode = 2
-text = "Меню"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Menu"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="Result" type="PanelContainer" parent="Screens" unique_id=330121729]
 visible = false
@@ -381,22 +450,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Result" unique_id=2001990423]
+position = Vector2(642.5, 362)
+scale = Vector2(6.6927085, 6.685185)
+texture = ExtResource("2_0bbpv")
+
 [node name="ResultVBox" type="VBoxContainer" parent="Screens/Result" unique_id=756134479]
 layout_mode = 2
 
 [node name="ResultTitle" type="Label" parent="Screens/Result/ResultVBox" unique_id=91612983]
 layout_mode = 2
-text = "Результат"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Result"
 horizontal_alignment = 1
 
 [node name="ResultText" type="Label" parent="Screens/Result/ResultVBox" unique_id=55116922]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("2_rvslj")
 horizontal_alignment = 1
 
 [node name="BtnReplay" type="Button" parent="Screens/Result/ResultVBox" unique_id=724986923]
 layout_mode = 2
-text = "Ще раз"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Again"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="BtnResultMenu" type="Button" parent="Screens/Result/ResultVBox" unique_id=444242354]
 layout_mode = 2
-text = "Меню"
+theme_override_fonts/font = ExtResource("2_rvslj")
+text = "Menu"
+icon = ExtResource("4_rarhs")

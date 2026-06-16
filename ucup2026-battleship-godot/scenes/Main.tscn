@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://b83uhwm1mh12t" path="res://assets/fonts/alagard.ttf" id="2_rvslj"]
 [ext_resource type="Texture2D" uid="uid://348vpvrgwr2k" path="res://assets/buttons/button_icon.png" id="4_rarhs"]
 [ext_resource type="Texture2D" uid="uid://dolxtd6srmto6" path="res://assets/bg/Fantasy_Landscape_blurred.png" id="5_vcsgt"]
+[ext_resource type="Texture2D" uid="uid://ddamltj31qwr1" path="res://assets/buttons/statistics.png" id="6_c01mt"]
 
 [node name="Main" type="Control" unique_id=429664905]
 layout_mode = 3
@@ -329,7 +330,6 @@ flat = true
 icon_alignment = 1
 
 [node name="Game" type="PanelContainer" parent="Screens" unique_id=991645584]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -387,6 +387,12 @@ columns = 11
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 
+[node name="Sprite2D" type="Sprite2D" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1926381838]
+modulate = Color(1, 1, 1, 0.32941177)
+position = Vector2(119.5, 184)
+scale = Vector2(1.3177084, 1.3148147)
+texture = ExtResource("6_c01mt")
+
 [node name="AbilitiesTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1542157185]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_rvslj")
@@ -405,6 +411,9 @@ icon_alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_rvslj")
 text = "Big rock 3×3 (1)"
+icon = ExtResource("4_rarhs")
+flat = true
+icon_alignment = 1
 
 [node name="StatsTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=853582740]
 layout_mode = 2

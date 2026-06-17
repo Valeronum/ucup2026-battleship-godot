@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://b83uhwm1mh12t" path="res://assets/fonts/alagard.ttf" id="2_rvslj"]
 [ext_resource type="Texture2D" uid="uid://348vpvrgwr2k" path="res://assets/buttons/button_icon.png" id="4_rarhs"]
 [ext_resource type="Texture2D" uid="uid://dolxtd6srmto6" path="res://assets/bg/Fantasy_Landscape_blurred.png" id="5_vcsgt"]
+[ext_resource type="Texture2D" uid="uid://ddamltj31qwr1" path="res://assets/buttons/statistics.png" id="6_c01mt"]
 
 [node name="Main" type="Control" unique_id=429664905]
 layout_mode = 3
@@ -329,7 +330,6 @@ flat = true
 icon_alignment = 1
 
 [node name="Game" type="PanelContainer" parent="Screens" unique_id=991645584]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -386,6 +386,12 @@ columns = 11
 [node name="Sidebar" type="VBoxContainer" parent="Screens/Game/GameRoot/GameBody" unique_id=668568787]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
+
+[node name="StatbarBackground" type="Sprite2D" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=663083395]
+modulate = Color(1, 1, 1, 0.4)
+position = Vector2(120.00004, 171.5)
+scale = Vector2(1.302083, 1.3425926)
+texture = ExtResource("6_c01mt")
 
 [node name="AbilitiesTitle" type="Label" parent="Screens/Game/GameRoot/GameBody/Sidebar" unique_id=1542157185]
 layout_mode = 2
